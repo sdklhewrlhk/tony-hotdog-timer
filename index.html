@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TONY'S CALIFORNIA DEVIL HOTDOG</title>
+    <link href="https://seed-design.line.me/static/css/line-seed-kr.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Monoton&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --neon-pink: #ff007f;
+            --neon-purple: #bc13fe;
+            --neon-blue: #00f3ff;
+            --neon-yellow: #fdfd96;
+            --bg-deep: #05050a;
+            --receipt-paper: #f9f9f7;
+        }
+
+        * {
+            box-sizing: border-box;
+            cursor: url('https://raw.githubusercontent.com/googlefonts/noto-emoji/main/svg/emoji_u1f525.svg') 16 16, auto;
+        }
+
+        body {
+            background-color: var(--bg-deep);
+            background-image: radial-gradient(circle at 50% 50%, #1a1a2e 0%, #05050a 100%);
+            font-family: 'LINE Seed KR', sans-serif;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: white;
+            /* 사이즈 90% 축소 */
+            transform: scale(0.9);
+            transform-origin: center;
+        }
+
+        .billboard-frame {
+            position: relative;
+            width: 850px;
+            padding: 10px;
+            background: #111;
+            border-radius: 40px;
+            box-shadow: 0 0 30px rgba(188, 19, 254, 0.3);
+            border: 4px solid #222;
+        }
+
+        .billboard-inner {
+            background: rgba(10, 10, 20, 0.9);
+            border-radius: 30px;
+            padding: 35px;
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 30px;
+            position: relative;
+            border: 2px solid #333;
+        }
+
+        .neon-light {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            border-radius: 30px;
+            border: 3px solid var(--neon-purple);
+            box-shadow: 0 0 15px var(--neon-purple), inset 0 0 10px var(--neon-purple);
+            animation: pulse-glow 2s infinite alternate;
+            pointer-events: none;
+        }
+
+        @keyframes pulse-glow {
+            from { opacity: 0.7; }
+            to { opacity: 1; box-shadow: 0 0 25px var(--neon-pink); }
+        }
+
+        .header {
+            grid-column: span 2;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        /* 배너 2줄 설정 */
+        .header h1 {
+            font-family: 'Bangers', cursive;
+            font-size: 3.5rem;
+            line-height: 0.9;
+            margin: 0;
+            color: var(--neon-yellow);
+            text-shadow: 0 0 10px var(--neon-yellow), 0 0 20px var(--neon-pink);
+        }
+
+        .left-zone {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .hotdog-display {
+            width: 100%;
+            height: 260px;
+            background: #0a0a14;
+            border-radius: 25px;
+            border: 2px solid #2a2d45;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        #hotdog-img { width: 160px; transition: 0.5s; }
+
+        .wiggle { animation: wiggle-anim 0.8s infinite; }
+        .happy { animation: happy-anim 0.5s infinite alternate; filter: drop-shadow(0 0 20px var(--neon-blue)); }
+        .sad { filter: grayscale(1) brightness(0.5); transform: rotate(90deg) scale(0.8); }
+
+        @keyframes wiggle-anim {
+            0%, 100% { transform: rotate(-5deg); }
+            50% { transform: rotate(5deg) scale(1.05); }
+        }
+        @keyframes happy-anim {
+            from { transform: translateY(0); }
+            to { transform: translateY(-20px); }
+        }
+
+        #speech {
+            position: absolute;
+            top: 15px;
+            background: white;
+            color: black;
+            padding: 10px 15px;
+            border-radius: 15px;
+            font-weight: 900;
+            font-size: 0.85rem;
+            box-shadow: 0 0 10px white;
+            max-width: 80%;
+            text-align: center;
+        }
+
+        #timer {
+            font-family: 'Monoton', cursive;
+            font-size: 5.5rem;
+            color: white;
+            text-shadow: 0 0 15px var(--neon-blue);
+            margin: 5px 0;
+        }
+
+        /* 영수증 투두리스트 */
+        .receipt {
+            background-color: var(--receipt-paper);
+            color: #222;
+            padding: 25px;
+            border-radius: 2px;
+            min-height: 460px;
+            box-shadow: 10px 10px 0px rgba(0,0,0,0.4);
+            transform: rotate(-0.5deg);
+        }
+
+        .receipt-head {
+            text-align: center;
+            border-bottom: 2px dashed #555;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+
+        .receipt-head h2 { font-family: 'Bangers'; font-size: 1.8rem; margin: 0; color: #d32f2f; }
+
+        .todo-box { border-bottom: 2px solid #333; margin-bottom: 10px; }
+        #todo-input {
+            width: 100%; border: none; background: transparent; padding: 8px;
+            font-family: 'LINE Seed KR'; font-weight: bold; outline: none;
+        }
+
+        .todo-list { list-style: none; padding: 0; margin: 0; max-height: 250px; overflow-y: auto; }
+        .todo-item {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 8px 0; border-bottom: 1px dotted #999; font-size: 0.9rem;
+        }
+        .todo-text { flex: 1; cursor: pointer; }
+        .todo-text.done { text-decoration: line-through; color: #aaa; }
+        .del-btn { color: #ff007f; border: none; background: none; font-weight: 900; cursor: pointer; }
+
+        .controls { display: flex; gap: 10px; width: 100%; }
+        .btn {
+            flex: 1; padding: 15px; border: none; border-radius: 12px;
+            font-family: 'Bangers'; font-size: 1.5rem; cursor: pointer; transition: 0.2s;
+        }
+        .btn-go { background: var(--neon-pink); color: white; box-shadow: 0 0 15px var(--neon-pink); }
+        .btn-stop { background: #333; color: #888; }
+
+        .stat-bar {
+            grid-column: span 2;
+            margin-top: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border-radius: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9rem;
+        }
+
+        .stat-info b { color: var(--neon-yellow); }
+        .copy-btn {
+            background: var(--neon-blue); color: black; padding: 8px 15px;
+            border-radius: 8px; font-weight: 900; border: none; font-size: 0.8rem;
+        }
+    </style>
+</head>
+<body>
+
+<div class="billboard-frame">
+    <div class="neon-light"></div>
+    <div class="billboard-inner">
+        
+        <header class="header">
+            <h1>TONY'S <br> CALIFORNIA DEVIL HOTDOG</h1>
+        </header>
+
+        <div class="left-zone">
+            <div class="hotdog-display" id="stage">
+                <div id="speech">여기, 나 좀 봐줘!</div>
+                <img src="https://www.gstatic.com/android/keyboard/emojikitchen/20201001/u1f608/u1f608_u1f32d.png" id="hotdog-img" class="wiggle">
+            </div>
+            <div id="timer">25:00</div>
+            <div class="controls">
+                <button class="btn btn-go" id="start-btn">ORDER START</button>
+                <button class="btn btn-stop" id="stop-btn">GET COLD</button>
+            </div>
+        </div>
+
+        <div class="receipt">
+            <div class="receipt-head">
+                <h2><img src="https://raw.githubusercontent.com/googlefonts/noto-emoji/main/svg/emoji_u1f608.svg" width="22"> DEVIL'S ORDER</h2>
+                <p id="receipt-date" style="margin: 5px 0; font-size: 0.75rem; font-weight: bold;">DATE: 2026.01.09</p>
+                <p style="margin: 0; letter-spacing: -1px;">************************************</p>
+            </div>
+            <div class="todo-box">
+                <input type="text" id="todo-input" placeholder="여기에 오늘의 악마적 계획을 적어봐...">
+            </div>
+            <ul class="todo-list" id="todo-list"></ul>
+        </div>
+
+        <div class="stat-bar">
+            <div class="stat-info">
+                총 주문량: <b id="stat-count">0</b> 세션 | 누적 관심 시간: <b id="stat-time">0</b> 분
+            </div>
+            <button class="copy-btn" onclick="copyReceipt()">영수증 복사하기</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    let timer;
+    let timeLeft = 25 * 60;
+    let isRunning = false;
+    let count = parseInt(localStorage.getItem('tony_final_count') || 0);
+    let totalMins = parseInt(localStorage.getItem('tony_final_mins') || 0);
+
+    const hotdogImg = document.getElementById('hotdog-img');
+    const speech = document.getElementById('speech');
+    const timerDisplay = document.getElementById('timer');
+    const todoInput = document.getElementById('todo-input');
+    const todoList = document.getElementById('todo-list');
+
+    const IMG_DEVIL = "https://www.gstatic.com/android/keyboard/emojikitchen/20201001/u1f608/u1f608_u1f32d.png";
+    const IMG_SAD = "https://raw.githubusercontent.com/googlefonts/noto-emoji/main/svg/emoji_u1f32d.svg";
+
+    // 상태별 멘트 분리
+    const idleQuotes = ["여기, 나 좀 봐줘!", "나 좀 봐!", "심심해 죽겠어!", "자, 다시 나를 반겨봐!", "※ 주의: 집중하지 않으면 토니가 식어버림.", "거기! 나 안 볼 거야?"];
+    const happyQuotes = ["와! 지금 네 집중력 완전 뜨거운데?", "네가 집중해 주니까 기분 최고야!", "토니는 네 관심을 먹고 자라나지!", "집중하는 네 모습, 멋져!", "좋아, 그 텐션이야!"];
+    const sadQuotes = [
+        "난 그냥 빵인가봐..", "실망이야.", "나 삐졌어.", 
+        "관심 안 줄 거야? 나 지금 식어가고 있다고!", 
+        "뭐야... 고작 이거야? 차갑게 식어버릴 거야...", 
+        "...난 이제 그냥 밀가루 덩어리일 뿐이야...", 
+        "변덕스러운 녀석 같으니라고.", 
+        "나... 버려진 거야? 차갑게 식어가는 중..."
+    ];
+
+    function updateDate() {
+        const now = new Date();
+        document.getElementById('receipt-date').textContent = `DATE: ${now.getFullYear()}.${(now.getMonth()+1).toString().padStart(2,'0')}.${now.getDate().toString().padStart(2,'0')} ${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}`;
+    }
+
+    function updateStats() {
+        document.getElementById('stat-count').textContent = count;
+        document.getElementById('stat-time').textContent = totalMins;
+        localStorage.setItem('tony_final_count', count);
+        localStorage.setItem('tony_final_mins', totalMins);
+    }
+
+    function updateDisplay() {
+        const m = Math.floor(timeLeft / 60);
+        const s = timeLeft % 60;
+        timerDisplay.textContent = `${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+    }
+
+    function startTimer() {
+        if (isRunning) return;
+        isRunning = true;
+        updateDate();
+        hotdogImg.src = IMG_DEVIL;
+        hotdogImg.className = 'happy';
+        speech.textContent = happyQuotes[Math.floor(Math.random() * happyQuotes.length)];
+        
+        timer = setInterval(() => {
+            timeLeft--;
+            updateDisplay();
+            // 런타임 중에도 가끔 멘트 던지기
+            if(timeLeft % 300 === 0) speech.textContent = "집중 안 해? 너 정말 이럴 거야?";
+
+            if (timeLeft < 0) {
+                clearInterval(timer);
+                isRunning = false;
+                count++;
+                totalMins += 25;
+                updateStats();
+                alert("SOLD OUT! 완벽한 관심이었어!");
+                resetTimer();
+            }
+        }, 1000);
+    }
+
+    function stopTimer() {
+        clearInterval(timer);
+        isRunning = false;
+        hotdogImg.src = IMG_SAD;
+        hotdogImg.className = 'sad';
+        speech.textContent = sadQuotes[Math.floor(Math.random() * sadQuotes.length)];
+    }
+
+    function resetTimer() {
+        clearInterval(timer);
+        isRunning = false;
+        timeLeft = 25 * 60;
+        hotdogImg.src = IMG_DEVIL;
+        hotdogImg.className = 'wiggle';
+        speech.textContent = idleQuotes[Math.floor(Math.random() * idleQuotes.length)];
+        updateDisplay();
+    }
+
+    function addTodo() {
+        const val = todoInput.value.trim();
+        if (!val) return;
+        const li = document.createElement('li');
+        li.className = 'todo-item';
+        li.innerHTML = `
+            <span class="todo-text" onclick="this.classList.toggle('done')">${val}</span>
+            <button class="del-btn" onclick="this.parentElement.remove()">X</button>
+        `;
+        todoList.appendChild(li);
+        todoInput.value = "";
+    }
+
+    function copyReceipt() {
+        const date = document.getElementById('receipt-date').textContent;
+        let items = "";
+        document.querySelectorAll('.todo-item').forEach(item => {
+            const text = item.querySelector('.todo-text').textContent;
+            const isDone = item.querySelector('.todo-text').classList.contains('done');
+            items += `${isDone ? '✅' : '❎'} ${text}\n`;
+        });
+
+        const receiptText = `
+┏━━━━━━━━━━━━━━━━━━━━━━━┓
+   TONY'S CA DEVIL HOTDOG
+┗━━━━━━━━━━━━━━━━━━━━━━━┛
+  ${date}
+  ━━━━━━━━━━━━━━━━━━━━━━━
+  [ DEVIL'S ORDER LIST ]
+  ${items || "  주문 내역이 없습니다.\n"}
+  ━━━━━━━━━━━━━━━━━━━━━━━
+  TOTAL ORDERS : ${count}
+  FOCUS TIME   : ${totalMins} MINS
+  ━━━━━━━━━━━━━━━━━━━━━━━
+  THANK YOU! 😈🌭✨
+  ━━━━━━━━━━━━━━━━━━━━━━━
+        `;
+        
+        navigator.clipboard.writeText(receiptText.trim()).then(() => {
+            alert("영수증이 클립보드에 복사되었습니다!");
+        });
+    }
+
+    todoInput.addEventListener('keypress', (e) => { if(e.key === 'Enter') addTodo(); });
+    document.getElementById('start-btn').addEventListener('click', startTimer);
+    document.getElementById('stop-btn').addEventListener('click', stopTimer);
+    document.getElementById('stage').addEventListener('click', startTimer);
+
+    updateStats();
+    updateDisplay();
+    updateDate();
+</script>
+
+</body>
+</html>

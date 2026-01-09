@@ -351,8 +351,8 @@
     const IMG_DEVIL = "https://www.gstatic.com/android/keyboard/emojikitchen/20201001/u1f608/u1f608_u1f32d.png";
     const IMG_SAD = "https://raw.githubusercontent.com/googlefonts/noto-emoji/main/svg/emoji_u1f32d.svg";
 
-    const idleQuotes = ["- 여기, 나 좀 봐줘!", "- 저기요? 똑똑? 계세요?", "- 나 진짜 안 볼 거야?","- 캘리포니아 햇살보다 네 관심이 필요해.", "- 모니터 뚫고 나간다? 진짜 나간다?", "- (콕콕) 야, 관심 좀 줘!", "- 식어버린다?", "- 나 지금 기다리고 있다고!"];
-    const happyQuotes = ["- 와! 지금 네 집중력 엄청난데?", "- 그렇지! 나만 바라보라구!", "- 네가 집중해 주니까 기분 최고야!", "- 핫도그보다 뜨거운 너의 열정!", "- 그래, 그렇게 하는 거야!"];
+    const idleQuotes = ["- 여기, 나 좀 봐줘!", "- 저기요? 똑똑? 계세요?", "- 나 진짜 안 볼 거야?","- 캘리포니아 햇살보다 네 관심이 필요해.", "- 모니터 뚫고 나간다? 진짜 나간다?", "- (콕콕)관심 좀 줘!", "- 나 지금 기다리고 있다고!"];
+    const happyQuotes = ["- 와! 지금 네 집중력 엄청난데?", "- 그렇지! 나만 바라보라구!", "- 네가 집중해 주니까 기분 최고야!", "- 핫도그보다 뜨거운 너의 관심!", "- 그래, 그렇게 하는 거야!"];
     const sadQuotes = ["- 난 그냥 식은 빵이야..", "- 실망이야.", "- 캘리포니아 드림은 끝났어...", "- 차갑게 식어가는 중...", "- 흥, 삐졌어."];
     const breakQuotes = ["- 쉴 때는 화끈하게 쉬어야지!", "- 나도 데려가! 주머니에 들어가야지!", "- 충전 완료되면 제일 먼저 나 보러 와야 해!" , "- 그래, 머리 좀 식히고 와!", "- 칠링 타임~"];
 
@@ -555,7 +555,7 @@
     /* --- Rune Data & Logic --- */
     const runes = [
         { s: 'ᛗ', n: 'Mannaz', k: '자아, 인류', t: '네가 혼자인 것 같지? 주위를 봐. 널 도울 사람이 널려있어.' },
-        { s: 'ᚷ', n: 'Gebo', k: '선물, 파트너십', t: '너한테 엄청난 재능이 있네. 그건 바로 날 알아보는 안목이지!' },
+        { s: 'ᚷ', n: 'Gebo', k: '선물, 파트너십', t: '네게 엄청난 재능이 있네. 그건 바로 날 알아보는 안목이지!' },
         { s: 'ᚨ', n: 'Ansuz', k: '지혜, 메시지', t: '귀를 열어 봐. 중요한 힌트가 들릴 거야.' },
         { s: 'ᛟ', n: 'Othila', k: '유산, 고향', t: '가진 걸 소중히 해. 네가 쌓아온 노력들이 곧 큰 자산이 될 거야.' },
         { s: 'ᚢ', n: 'Uruz', k: '힘, 용기', t: '지금 네 에너지 미쳤다! 그대로 밀고 나가.' },
@@ -617,6 +617,20 @@
     document.getElementById('stage').addEventListener('click', () => { if(!isRunning && mode === 'focus') startTimer(); });
 
     updateStats(); updateDisplay(); updateDate();
+/* --- 대기 상태일 때 주기적으로 말을 거는 기능 추가 --- */
+setInterval(() => {
+    // 타이머가 작동 중이지 않을 때만(isRunning === false) 
+    // 그리고 핫도그가 삐진 상태(sad)가 아닐 때 대기 대사를 출력합니다.
+    if (!isRunning && !hotdogImg.classList.contains('sad')) {
+        const randomQuote = idleQuotes[Math.floor(Math.random() * idleQuotes.length)];
+        subtitles.textContent = randomQuote;
+        
+        // 말할 때마다 살짝 움찔거리는 효과 추가
+        hotdogImg.classList.remove('wiggle');
+        void hotdogImg.offsetWidth; // 리플로우 강제 발생 (애니메이션 재시작용)
+        hotdogImg.classList.add('wiggle');
+    }
+}, 6000); // 6초마다 한 번씩 말을 겁니다.
 </script>
 </body>
 </html>

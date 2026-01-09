@@ -604,7 +604,7 @@
         document.querySelectorAll('.todo-item').forEach(item => {
             const text = item.querySelector('.todo-text').textContent;
             const isDone = item.querySelector('.todo-text').classList.contains('done');
-            items += `${isDone ? '✅' : '❎'} ${text}\n`;
+            items += `${isDone ? '✅' : '⚠️'} ${text}\n`;
         });
         const txt = `[TONY'S DEVIL HOTDOG]\nDATE: ${document.getElementById('receipt-date').textContent.replace('DATE: ','')}\n----------------\n${items || "No Orders\n"}----------------\nOrders: ${count}\nFocus: ${totalMins}m\nRest: ${totalBreakMins}m\n----------------`;
         navigator.clipboard.writeText(txt).then(() => alert("THANK YOU!😈"));
@@ -615,6 +615,13 @@
     document.getElementById('stop-btn').addEventListener('click', stopTimer);
     document.getElementById('break-btn').addEventListener('click', startBreak);
     document.getElementById('stage').addEventListener('click', () => { if(!isRunning && mode === 'focus') startTimer(); });
+
+// ESC 키로 룬 모달 닫기 기능 추가
+window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+        closeRuneModal();
+    }
+});
 
     updateStats(); updateDisplay(); updateDate();
 /* --- 대기 상태일 때 주기적으로 말을 거는 기능 추가 --- */

@@ -14,6 +14,7 @@
             --neon-purple: #bc13fe;
             --neon-blue: #00f3ff;
             --neon-yellow: #fdfd96;
+            --neon-green: #39ff14;
             --bg-deep: #05050a;
             --receipt-paper: #ffffff;
             --bulb-on: #fffb00;
@@ -176,9 +177,28 @@
             font-family: 'Bangers'; font-size: 1.6rem; cursor: pointer; transition: 0.3s;
         }
         .btn-go { background: var(--neon-pink); color: #fff; box-shadow: 0 0 20px var(--neon-pink); }
-        .btn-stop { background: #222; color: #666; }
-        .btn-break { background: var(--neon-blue); color: #000; box-shadow: 0 0 15px var(--neon-blue); }
-        .btn-break:disabled { background: #333; color: #555; box-shadow: none; cursor: not-allowed; opacity: 0.7; }
+        /* 하늘색으로 변경된 GET COLD */
+        .btn-stop { 
+            background: var(--neon-blue); 
+            color: #000; 
+            box-shadow: 0 0 15px var(--neon-blue);
+        }
+        
+        /* 연두색으로 변경된 BREAK (활성화 상태) */
+        .btn-break { 
+            background: var(--neon-green); 
+            color: #000; 
+            box-shadow: 0 0 15px var(--neon-green); 
+        }
+        
+        /* 비활성화일 때는 어둡게 표시 */
+        .btn-break:disabled { 
+            background: #333; 
+            color: #555; 
+            box-shadow: none; 
+            cursor: not-allowed; 
+            opacity: 0.7; 
+        }
         .btn:not(:disabled):hover { transform: translateY(-5px) scale(1.02); }
 
         .stat-bar {

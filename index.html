@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TONY'S DEVIL HOTDOG</title>
-    <!-- 브라우저 아이콘(Favicon) 설정 -->
     <link rel="icon" href="https://www.gstatic.com/android/keyboard/emojikitchen/20201001/u1f608/u1f608_u1f32d.png" type="image/png">
     
     <link href="https://seed-design.line.me/static/css/line-seed-kr.css" rel="stylesheet">
@@ -17,6 +16,8 @@
             --neon-yellow: #fdfd96;
             --bg-deep: #05050a;
             --receipt-paper: #ffffff;
+            --bulb-on: #fffb00;
+            --bulb-off: #554400;
         }
 
         * {
@@ -25,8 +26,8 @@
         }
 
         body {
-            background-color: var(--bg-deep);
-            background-image: radial-gradient(circle at 50% 50%, #1a1a2e 0%, #05050a 100%);
+            background: url('https://images.unsplash.com/photo-1611107875582-684c70574042?q=80&w=1470&auto=format&fit=crop') no-repeat center center fixed;
+            background-size: cover;
             font-family: 'LINE Seed KR', sans-serif;
             margin: 0;
             display: flex;
@@ -34,47 +35,61 @@
             align-items: center;
             min-height: 100vh;
             color: white;
-            /* 사이즈 95% 축소 */
-            transform: scale(0.95);
+            overflow: hidden;
+        }
+
+        /* 사이즈 80%로 축소 */
+        .scale-wrapper {
+            transform: scale(0.8);
             transform-origin: center;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .marquee-frame {
+            position: relative;
+            padding: 25px;
+            background: #221100;
+            border-radius: 60px;
+            box-shadow: 0 0 50px rgba(0,0,0,0.8);
+            border: 4px solid #443311;
+        }
+
+        .bulb-container {
+            position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            pointer-events: none; border-radius: 55px;
+        }
+        .bulb {
+            position: absolute; width: 16px; height: 16px;
+            background: var(--bulb-off); border-radius: 50%;
+            box-shadow: inset 2px 2px 5px rgba(0,0,0,0.5); transition: 0.1s;
+        }
+        .bulb.on {
+            background: var(--bulb-on);
+            box-shadow: 0 0 10px var(--bulb-on), 0 0 20px var(--bulb-on);
         }
 
         .billboard-frame {
-            position: relative;
-            width: 880px;
-            padding: 12px;
-            background: #000;
-            border-radius: 45px;
-            box-shadow: 
-                0 0 20px var(--neon-purple),
-                0 0 40px var(--neon-pink),
-                0 0 60px rgba(188, 19, 254, 0.2);
-            border: 4px solid #111;
+            position: relative; width: 900px;
+            background: #000; border-radius: 45px;
+            box-shadow: 0 0 20px var(--neon-purple), 0 0 40px var(--neon-pink);
+            border: 4px solid #111; z-index: 2;
         }
 
         .billboard-inner {
-            background: rgba(8, 8, 15, 0.95);
-            border-radius: 35px;
-            padding: 40px;
-            display: grid;
-            grid-template-columns: 1.1fr 0.9fr;
-            gap: 40px;
-            position: relative;
-            border: 2px solid #222;
+            background: rgba(8, 8, 15, 0.95); border-radius: 35px;
+            padding: 40px; display: grid; grid-template-columns: 1.1fr 0.9fr;
+            gap: 40px; position: relative; border: 2px solid #222;
         }
 
         .neon-light {
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            border-radius: 35px;
-            border: 4px solid var(--neon-purple);
-            box-shadow: 
-                0 0 15px var(--neon-purple),
-                0 0 30px var(--neon-pink),
-                inset 0 0 15px var(--neon-purple),
-                inset 0 0 30px var(--neon-pink);
-            animation: ultra-glow 1.5s infinite alternate;
-            pointer-events: none;
+            position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            border-radius: 35px; border: 4px solid var(--neon-purple);
+            box-shadow: 0 0 15px var(--neon-purple), 0 0 30px var(--neon-pink), inset 0 0 15px var(--neon-purple), inset 0 0 30px var(--neon-pink);
+            animation: ultra-glow 1.5s infinite alternate; pointer-events: none;
         }
 
         @keyframes ultra-glow {
@@ -82,67 +97,54 @@
             to { filter: brightness(1.5) contrast(1.2); opacity: 1; box-shadow: 0 0 25px var(--neon-pink), 0 0 50px var(--neon-blue), inset 0 0 20px var(--neon-pink); }
         }
 
-        .header {
-            grid-column: span 2;
-            text-align: center;
-            margin-bottom: 15px;
+        .flash-effect { animation: flashBang 0.5s ease-out; }
+        @keyframes flashBang {
+            0% { box-shadow: 0 0 0 0 rgba(255,255,255,0); }
+            10% { box-shadow: 0 0 100px 100px rgba(255,255,255,0.8), inset 0 0 100px 100px rgba(255,255,255,0.8); background: #fff; }
+            100% { box-shadow: 0 0 0 0 rgba(255,255,255,0); background: rgba(8, 8, 15, 0.95); }
         }
 
+        .header { grid-column: span 2; text-align: center; margin-bottom: 5px; }
         .header h1 {
-            font-family: 'Bangers', cursive;
-            font-size: 3.8rem;
-            line-height: 0.95;
-            margin: 0;
-            color: var(--neon-yellow);
-            text-shadow: 0 0 15px var(--neon-yellow), 0 0 30px var(--neon-pink), 0 0 50px var(--neon-pink);
+            font-family: 'Bangers', cursive; font-size: 3.8rem; line-height: 0.9; margin: 0;
+            color: var(--neon-yellow); text-shadow: 0 0 15px var(--neon-yellow), 0 0 30px var(--neon-pink), 0 0 50px var(--neon-pink);
+        }
+        .header .sub-location {
+            font-family: 'Monoton', cursive; font-size: 1.5rem; color: var(--neon-blue);
+            text-shadow: 0 0 10px var(--neon-blue); margin-top: 5px; display: block;
         }
 
         .receipt {
-            background-color: var(--receipt-paper);
-            color: #111;
-            padding: 35px 25px 60px 25px; /* 하단 풋터를 위해 패딩 추가 */
-            min-height: 500px;
-            box-shadow: 15px 15px 0px rgba(0,0,0,0.5);
-            position: relative;
-            mask-image: linear-gradient(to bottom, 
-                transparent 0, transparent 10px, black 10px, 
-                black calc(100% - 10px), transparent calc(100% - 10px)),
-                conic-gradient(from -45deg at bottom, #000 90deg, #0000 0) bottom / 20px 10px repeat-x,
-                conic-gradient(from 135deg at top, #000 90deg, #0000 0) top / 20px 10px repeat-x;
-            -webkit-mask-image: linear-gradient(to bottom, 
-                transparent 0, transparent 10px, black 10px, 
-                black calc(100% - 10px), transparent calc(100% - 10px)),
-                conic-gradient(from -45deg at bottom, #000 90deg, #0000 0) bottom / 20px 10px repeat-x,
-                conic-gradient(from 135deg at top, #000 90deg, #0000 0) top / 20px 10px repeat-x;
+            background-color: var(--receipt-paper); color: #111;
+            padding: 35px 25px 60px 25px; min-height: 500px;
+            box-shadow: 15px 15px 0px rgba(0,0,0,0.5); position: relative;
+            mask-image: linear-gradient(to bottom, transparent 0, transparent 10px, black 10px, black calc(100% - 10px), transparent calc(100% - 10px)), conic-gradient(from -45deg at bottom, #000 90deg, #0000 0) bottom / 20px 10px repeat-x, conic-gradient(from 135deg at top, #000 90deg, #0000 0) top / 20px 10px repeat-x;
+            -webkit-mask-image: linear-gradient(to bottom, transparent 0, transparent 10px, black 10px, black calc(100% - 10px), transparent calc(100% - 10px)), conic-gradient(from -45deg at bottom, #000 90deg, #0000 0) bottom / 20px 10px repeat-x, conic-gradient(from 135deg at top, #000 90deg, #0000 0) top / 20px 10px repeat-x;
         }
 
-        .receipt-head {
-            text-align: center;
-            border-bottom: 2px dashed #444;
-            padding-bottom: 15px;
-            margin-bottom: 20px;
+        .rune-ticket {
+            position: absolute; top: 15px; right: -15px; background: #ffeb3b; color: #d50000;
+            padding: 8px 15px; font-family: 'Bangers'; font-size: 1.1rem; transform: rotate(15deg);
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.3); border: 1px dashed #d50000; cursor: pointer; z-index: 10; transition: 0.2s;
+        }
+        .rune-ticket:hover { transform: rotate(10deg) scale(1.1); }
+        .rune-ticket::before {
+            content: ''; position: absolute; top: -10px; left: 50%; transform: translateX(-50%);
+            width: 8px; height: 20px; background: #888; border-radius: 5px;
         }
 
+        .receipt-head { text-align: center; border-bottom: 2px dashed #444; padding-bottom: 15px; margin-bottom: 20px; }
         .receipt-head h2 { font-family: 'Bangers'; font-size: 2.2rem; margin: 0; color: #e63946; letter-spacing: 1px; }
-
         .receipt-footer {
-            position: absolute;
-            bottom: 25px;
-            left: 0;
-            right: 0;
-            text-align: center;
-            font-family: 'Bangers';
-            font-size: 1.2rem;
-            color: rgba(0, 0, 0, 0.1); /* 옅은 글씨 */
-            letter-spacing: 2px;
-            pointer-events: none;
+            position: absolute; bottom: 25px; left: 0; right: 0;
+            text-align: center; font-family: 'Bangers'; font-size: 1.2rem;
+            color: rgba(0, 0, 0, 0.1); letter-spacing: 2px; pointer-events: none;
         }
 
         #todo-input {
             width: 100%; border: none; background: #f0f0f0; padding: 12px;
             font-family: 'LINE Seed KR'; font-weight: bold; outline: none; border-radius: 5px; margin-bottom: 10px;
         }
-
         .todo-item {
             display: flex; justify-content: space-between; align-items: center;
             padding: 10px 0; border-bottom: 1px dotted #aaa; font-size: 0.95rem; font-weight: 600;
@@ -153,23 +155,14 @@
         .hotdog-display {
             width: 100%; height: 280px; background: #05050a; border-radius: 30px;
             border: 2px solid #222; display: flex; justify-content: center; align-items: center; position: relative;
-            box-shadow: inset 0 0 20px #000;
-            overflow: hidden;
+            box-shadow: inset 0 0 20px #000; overflow: hidden;
         }
         #hotdog-img { width: 170px; transition: 0.4s; z-index: 5; }
 
-        /* 하단 자막 스타일 */
         #subtitles {
-            position: absolute;
-            bottom: 20px;
-            width: 100%;
-            text-align: center;
-            color: var(--neon-yellow); /* 노란 색 */
-            font-style: italic; /* 이탤릭 */
-            font-weight: bold;
-            font-size: 1rem;
-            text-shadow: 0 0 5px rgba(0,0,0,0.8);
-            z-index: 10;
+            position: absolute; bottom: 20px; width: 100%; text-align: center;
+            color: var(--neon-yellow); font-style: italic; font-weight: bold; font-size: 1rem;
+            text-shadow: 0 0 5px rgba(0,0,0,0.8); z-index: 10;
         }
 
         #timer {
@@ -177,93 +170,193 @@
             color: #fff; text-shadow: 0 0 20px var(--neon-blue), 0 0 40px var(--neon-blue); margin: 0;
         }
 
+        .btn-group { display: flex; gap:10px; width: 100%; }
         .btn {
-            flex: 1; padding: 18px; border: none; border-radius: 15px;
-            font-family: 'Bangers'; font-size: 1.8rem; cursor: pointer; transition: 0.3s;
+            flex: 1; padding: 18px 0; border: none; border-radius: 15px;
+            font-family: 'Bangers'; font-size: 1.6rem; cursor: pointer; transition: 0.3s;
         }
         .btn-go { background: var(--neon-pink); color: #fff; box-shadow: 0 0 20px var(--neon-pink); }
         .btn-stop { background: #222; color: #666; }
-        .btn:hover { transform: translateY(-5px) scale(1.02); }
+        .btn-break { background: var(--neon-blue); color: #000; box-shadow: 0 0 15px var(--neon-blue); }
+        .btn-break:disabled { background: #333; color: #555; box-shadow: none; cursor: not-allowed; opacity: 0.7; }
+        .btn:not(:disabled):hover { transform: translateY(-5px) scale(1.02); }
 
         .stat-bar {
-            grid-column: span 2; margin-top: 30px; background: rgba(255, 255, 255, 0.05);
-            padding: 20px; border-radius: 20px; display: flex; justify-content: space-between; align-items: center;
+            grid-column: span 2; margin-top: 20px; background: rgba(255, 255, 255, 0.05);
+            padding: 20px 30px; border-radius: 20px; display: flex; justify-content: space-between; align-items: center;
+            white-space: nowrap; /* 한줄 강제 */
+            overflow: hidden;
         }
-        .stat-info b { color: var(--neon-yellow); font-size: 1.2rem; }
+        .stat-info { flex-grow: 1; font-size: 1.1rem; }
+        .stat-info b { color: var(--neon-yellow); font-size: 1.3rem; margin-left: 5px; margin-right: 15px; }
         .copy-btn {
-            background: var(--neon-blue); color: #000; padding: 10px 20px;
+            background: var(--neon-blue); color: #000; padding: 10px 20px; flex-shrink: 0;
             border-radius: 10px; font-weight: 900; border: none; box-shadow: 0 0 15px var(--neon-blue);
         }
 
+        /* 5초 휴식 제안 팝업 */
+        .break-popup {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0);
+            background: rgba(0,0,0,0.9); border: 4px solid var(--neon-blue);
+            padding: 30px; border-radius: 25px; text-align: center; z-index: 100;
+            transition: 0.3s; pointer-events: none; opacity: 0;
+        }
+        .break-popup.active { transform: translate(-50%, -50%) scale(1); opacity: 1; pointer-events: all; }
+        .break-popup h3 { color: var(--neon-blue); font-family: 'Bangers'; font-size: 2.5rem; margin: 0 0 15px 0; }
+        .break-timer-bar { width: 100%; height: 5px; background: #333; margin-top: 15px; position: relative; }
+        .break-timer-fill { position: absolute; left: 0; top: 0; height: 100%; width: 100%; background: var(--neon-blue); transition: width 5s linear; }
+
+        /* 모달 스타일 */
+        .modal-overlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8); z-index: 1000;
+            justify-content: center; align-items: center;
+        }
+        .modal-content {
+            background: #1a1a2e; border: 4px solid var(--neon-blue);
+            padding: 40px; border-radius: 30px; text-align: center; max-width: 500px;
+            box-shadow: 0 0 50px var(--neon-blue); position: relative; color: #fff;
+        }
+        .modal-content h3 { font-family: 'Bangers'; font-size: 2.5rem; color: var(--neon-yellow); margin: 0 0 20px 0; }
+        .rune-symbol { font-size: 5rem; color: var(--neon-pink); margin: 20px 0; display: block; text-shadow: 0 0 20px var(--neon-pink); }
+        .rune-name { font-size: 1.5rem; font-weight: bold; margin-bottom: 10px; color: var(--neon-blue); }
+        .rune-desc { font-size: 0.9rem; color: #ccc; margin-bottom: 20px; line-height: 1.4; }
+        .tony-comment { background: rgba(255,255,255,0.1); padding: 15px; border-radius: 10px; font-style: italic; color: var(--neon-yellow); border-left: 4px solid var(--neon-pink); }
+        .close-modal { position: absolute; top: 15px; right: 20px; font-size: 2rem; cursor: pointer; color: #fff; }
+        .redraw-btn { margin-top: 20px; background: var(--neon-purple); border: none; padding: 10px 20px; color: white; font-weight: bold; border-radius: 10px; cursor: pointer; }
+
+        /* 애니메이션 클래스 */
         .wiggle { animation: wiggle 0.8s infinite; }
-        .happy { animation: jump 0.4s infinite alternate; filter: drop-shadow(0 0 20px var(--neon-blue)); }
+        
+        /* 행복: 핑크색 글로우 */
+        .happy { 
+            animation: jump 0.4s infinite alternate; 
+            filter: drop-shadow(0 0 20px var(--neon-pink)); 
+        }
+        
+        /* 휴식: 하늘색 글로우 & 좌우 통통 */
+        .resting { 
+            animation: side-jump 0.8s infinite ease-in-out; 
+            filter: drop-shadow(0 0 20px var(--neon-blue)); 
+        }
+
         .sad { filter: grayscale(1) brightness(0.4); transform: rotate(90deg) scale(0.85); }
+
         @keyframes wiggle { 0%, 100% { transform: rotate(-5deg); } 50% { transform: rotate(5deg) scale(1.1); } }
         @keyframes jump { from { transform: translateY(0); } to { transform: translateY(-30px); } }
+        @keyframes side-jump { 
+            0%, 100% { transform: translateX(-20px) rotate(-5deg); } 
+            50% { transform: translateX(20px) rotate(5deg); } 
+        }
     </style>
 </head>
 <body>
 
-<div class="billboard-frame">
-    <div class="neon-light"></div>
-    <div class="billboard-inner">
+<div class="scale-wrapper">
+    <div class="marquee-frame">
+        <div class="bulb-container" id="bulb-container"></div>
         
-        <header class="header">
-            <h1>TONY'S <br> CALIFORNIA DEVIL HOTDOG</h1>
-        </header>
+        <div class="billboard-frame" id="main-board">
+            <div class="neon-light"></div>
+            <div class="billboard-inner">
+                
+                <header class="header">
+                    <h1>TONY'S <br> DEVIL HOTDOG</h1>
+                    <span class="sub-location">in California</span>
+                </header>
 
-        <div class="left-zone">
-            <div class="hotdog-display" id="stage">
-                <div id="subtitles">- 여기, 나 좀 봐줘!</div>
-                <img src="https://www.gstatic.com/android/keyboard/emojikitchen/20201001/u1f608/u1f608_u1f32d.png" id="hotdog-img" class="wiggle">
-            </div>
-            <div id="timer">25:00</div>
-            <div style="display:flex; gap:10px; width:100%;">
-                <button class="btn btn-go" id="start-btn">ORDER START</button>
-                <button class="btn btn-stop" id="stop-btn">GET COLD</button>
-            </div>
-        </div>
+                <div class="left-zone">
+                    <div class="hotdog-display" id="stage">
+                        <div id="subtitles">- 여기, 나 좀 봐줘!</div>
+                        <!-- 휴식 제안 팝업 -->
+                        <div class="break-popup" id="break-popup">
+                            <h3>WANNA REST?</h3>
+                            <p style="margin:0; color:#fff;">휴식시간 5분 쓸래?</p>
+                            <button onclick="confirmBreak()" style="margin-top:15px; background:var(--neon-blue); border:none; padding:10px 20px; font-weight:bold; cursor:pointer;">YES, PLEASE</button>
+                            <div class="break-timer-bar"><div class="break-timer-fill" id="break-timer-fill"></div></div>
+                        </div>
+                        <img src="https://www.gstatic.com/android/keyboard/emojikitchen/20201001/u1f608/u1f608_u1f32d.png" id="hotdog-img" class="wiggle">
+                    </div>
+                    <div id="timer">25:00</div>
+                    <div class="btn-group">
+                        <button class="btn btn-go" id="start-btn">ORDER START</button>
+                        <button class="btn btn-break" id="break-btn" disabled>BREAK (0)</button>
+                        <button class="btn btn-stop" id="stop-btn">GET COLD</button>
+                    </div>
+                </div>
 
-        <div class="receipt">
-            <div class="receipt-head">
-                <h2><img src="https://raw.githubusercontent.com/googlefonts/noto-emoji/main/svg/emoji_u1f608.svg" width="26"> DEVIL'S ORDER</h2>
-                <p id="receipt-date" style="margin: 5px 0; font-size: 0.8rem; font-weight: bold; color: #666;">DATE: 2026.01.09</p>
-                <p style="margin: 0; letter-spacing: -1px; color: #999;">************************************</p>
-            </div>
-            <input type="text" id="todo-input" placeholder="여기에 오늘의 악마적 계획을 적어봐...">
-            <ul class="todo-list" id="todo-list" style="list-style:none; padding:0; margin:0;"></ul>
-            <div class="receipt-footer">TONY'S DEVIL HOTDOG</div>
-        </div>
+                <div class="receipt">
+                    <div class="rune-ticket" onclick="openRuneModal()">
+                        FREE<br>SERVICE
+                    </div>
 
-        <div class="stat-bar">
-            <div class="stat-info">
-                총 주문량: <b id="stat-count">0</b> 세션 | 누적 관심 시간: <b id="stat-time">0</b> 분
+                    <div class="receipt-head">
+                        <h2><img src="https://raw.githubusercontent.com/googlefonts/noto-emoji/main/svg/emoji_u1f608.svg" width="26"> DEVIL'S ORDER</h2>
+                        <p id="receipt-date" style="margin: 5px 0; font-size: 0.8rem; font-weight: bold; color: #666;">DATE: 2026.01.09</p>
+                        <p style="margin: 0; letter-spacing: -1px; color: #999;">************************************</p>
+                    </div>
+                    <input type="text" id="todo-input" placeholder="여기에 오늘의 악마적 계획을 적어봐...">
+                    <ul class="todo-list" id="todo-list" style="list-style:none; padding:0; margin:0;"></ul>
+                    <div class="receipt-footer">TONY'S DEVIL HOTDOG</div>
+                </div>
+
+                <div class="stat-bar">
+                    <div class="stat-info">
+                        총 주문량: <b id="stat-count">0</b> 세션 | 누적 관심: <b id="stat-time">0</b> 분 | 사용한 휴식: <b id="stat-break">0</b> 분
+                    </div>
+                    <button class="copy-btn" onclick="copyReceipt()">영수증</button>
+                </div>
             </div>
-            <button class="copy-btn" onclick="copyReceipt()">영수증 복사하기</button>
         </div>
     </div>
 </div>
 
+<!-- 룬스톤 모달 (동일) -->
+<div class="modal-overlay" id="rune-modal">
+    <div class="modal-content">
+        <span class="close-modal" onclick="closeRuneModal()">&times;</span>
+        <h3>TODAY'S RUNE</h3>
+        <span class="rune-symbol" id="rune-symbol">?</span>
+        <div class="rune-name" id="rune-name">UNKNOWN</div>
+        <div class="rune-desc" id="rune-desc">...</div>
+        <div class="tony-comment" id="tony-comment">"..."</div>
+        <button class="redraw-btn" onclick="drawRune()">🔄 다시 뽑기</button>
+    </div>
+</div>
+
 <script>
+    /* --- Basic Variables --- */
     let timer;
+    let autoContinueTimer;
     let timeLeft = 25 * 60;
     let isRunning = false;
-    let count = parseInt(localStorage.getItem('tony_ultimate_count') || 0);
-    let totalMins = parseInt(localStorage.getItem('tony_ultimate_mins') || 0);
+    let mode = 'focus'; // 'focus' or 'break'
+    
+    // 저장된 스탯 불러오기
+    let count = parseInt(localStorage.getItem('tony_ca_count') || 0);
+    let totalMins = parseInt(localStorage.getItem('tony_ca_mins') || 0);
+    let totalBreakMins = parseInt(localStorage.getItem('tony_total_break') || 0);
+    let breakBalance = parseInt(localStorage.getItem('tony_break_balance') || 0); // 적립된 휴식 시간 (분)
 
     const hotdogImg = document.getElementById('hotdog-img');
     const subtitles = document.getElementById('subtitles');
     const timerDisplay = document.getElementById('timer');
     const todoInput = document.getElementById('todo-input');
     const todoList = document.getElementById('todo-list');
+    const mainBoard = document.querySelector('.billboard-inner');
+    const breakBtn = document.getElementById('break-btn');
+    const breakPopup = document.getElementById('break-popup');
+    const breakTimerFill = document.getElementById('break-timer-fill');
 
     const IMG_DEVIL = "https://www.gstatic.com/android/keyboard/emojikitchen/20201001/u1f608/u1f608_u1f32d.png";
     const IMG_SAD = "https://raw.githubusercontent.com/googlefonts/noto-emoji/main/svg/emoji_u1f32d.svg";
 
-    const idleQuotes = ["- 여기, 나 좀 봐줘!", "- 나 좀 봐!", "- 심심해 죽겠어!", "- 자, 다시 나를 반겨봐!", "- ※ 주의: 집중하지 않으면 토니가 식어버림.", "- 관심 안 줄 거야? 나 지금 식어가고 있다고!"];
-    const happyQuotes = ["- 와! 지금 네 집중력 완전 뜨거운데?", "- 네가 집중해 주니까 기분 최고야!", "- 집중하는 네 모습, 핫도그보다 멋져!"];
-    const sadQuotes = ["- 난 그냥 빵인가봐..", "- 실망이야.", "- ...난 이제 그냥 밀가루 덩어리일 뿐이야...", "- 나... 버려진 거야? 차갑게 식어가는 중...", "- 삐졌어."];
+    const idleQuotes = ["- 여기, 나 좀 봐줘!", "- 저기요? 똑똑? 계세요?", "- 나 진짜 안 볼 거야?","- 캘리포니아 햇살보다 네 관심이 필요해.", "- 모니터 뚫고 나간다? 진짜 나간다?", "- (콕콕) 야, 관심 좀 줘!", "- 식어버린다?", "- 나 지금 기다리고 있다고!"];
+    const happyQuotes = ["- 와! 지금 네 집중력 엄청난데?", "- 그렇지! 나만 바라보라구!", "- 네가 집중해 주니까 기분 최고야!", "- 핫도그보다 뜨거운 너의 열정!", "- 그래, 그렇게 하는 거야!"];
+    const sadQuotes = ["- 난 그냥 식은 빵이야..", "- 실망이야.", "- 캘리포니아 드림은 끝났어...", "- 차갑게 식어가는 중...", "- 흥, 삐졌어."];
+    const breakQuotes = ["- 쉴 때는 화끈하게 쉬어야지!", "- 나도 데려가! 주머니에 들어가야지!", "- 충전 완료되면 제일 먼저 나 보러 와야 해!" , "- 그래, 머리 좀 식히고 와!", "- 칠링 타임~"];
 
+    /* --- Stats & UI Update --- */
     function updateDate() {
         const now = new Date();
         document.getElementById('receipt-date').textContent = `DATE: ${now.getFullYear()}.${(now.getMonth()+1).toString().padStart(2,'0')}.${now.getDate().toString().padStart(2,'0')} ${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}`;
@@ -272,8 +365,19 @@
     function updateStats() {
         document.getElementById('stat-count').textContent = count;
         document.getElementById('stat-time').textContent = totalMins;
-        localStorage.setItem('tony_ultimate_count', count);
-        localStorage.setItem('tony_ultimate_mins', totalMins);
+        document.getElementById('stat-break').textContent = totalBreakMins;
+        
+        breakBtn.textContent = `BREAK (${breakBalance})`;
+        if(breakBalance > 0 && !isRunning) {
+            breakBtn.disabled = false;
+        } else {
+            breakBtn.disabled = true;
+        }
+
+        localStorage.setItem('tony_ca_count', count);
+        localStorage.setItem('tony_ca_mins', totalMins);
+        localStorage.setItem('tony_total_break', totalBreakMins);
+        localStorage.setItem('tony_break_balance', breakBalance);
     }
 
     function updateDisplay() {
@@ -282,106 +386,237 @@
         timerDisplay.textContent = `${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
     }
 
-    function finishSession() {
-        clearInterval(timer);
-        isRunning = false;
-        count++;
-        totalMins += 25;
-        updateStats();
-        hotdogImg.src = IMG_DEVIL;
-        hotdogImg.className = 'happy';
-        subtitles.textContent = "- SOLD OUT! 대단한 집중력이었어! 넌 역시 내 최고의 단골이야!";
-        alert("🎉 집중 성공! 영수증에 실적이 기록되었습니다.");
-        timeLeft = 25 * 60;
-        updateDisplay();
-        setTimeout(() => {
-            if(!isRunning) {
-                hotdogImg.className = 'wiggle';
-                subtitles.textContent = "- 자, 다음 주문 들어간다! 다시 나를 눌러줘!";
-            }
-        }, 3000);
-    }
+    /* --- Timer Logic --- */
 
     function startTimer() {
         if (isRunning) return;
+        
+        // 만약 휴식 모드에서 시작을 누르면 -> 강제 종료하고 집중 모드로 전환
+        if (mode === 'break') {
+            stopTimer(); // 휴식 중단
+        }
+
+        mode = 'focus';
         isRunning = true;
+        timeLeft = 25 * 60; // 25분 리셋
         updateDate();
+        
+        // UI 변경
         hotdogImg.src = IMG_DEVIL;
-        hotdogImg.className = 'happy';
+        hotdogImg.className = 'happy'; // 핑크 글로우 + 점프
         subtitles.textContent = happyQuotes[Math.floor(Math.random() * happyQuotes.length)];
+        breakBtn.disabled = true;
+
         timer = setInterval(() => {
             timeLeft--;
             updateDisplay();
-            if (timeLeft < 0) finishSession();
+            if (timeLeft < 0) completeSession();
+        }, 1000);
+    }
+
+    function startBreak() {
+        if (isRunning || breakBalance <= 0) return;
+        
+        mode = 'break';
+        isRunning = true;
+        timeLeft = breakBalance * 60; // 적립된 시간만큼 휴식
+        
+        // UI 변경
+        hotdogImg.src = IMG_DEVIL;
+        hotdogImg.className = 'resting'; // 블루 글로우 + 좌우 점프
+        subtitles.textContent = breakQuotes[Math.floor(Math.random() * breakQuotes.length)];
+        breakBtn.disabled = true;
+
+        timer = setInterval(() => {
+            timeLeft--;
+            updateDisplay();
+
+            // 휴식 시간은 거꾸로 차감되는 게 아니라, 1분 지날 때마다 잔고에서 깎는게 논리적이나
+            // 여기서는 남은 시간을 보여주고, 완료된 만큼 잔고 차감하는 식으로 구현
+            // 간단하게: 1분 지날 때마다 totalBreakMins++, breakBalance-- 처리
+            if (timeLeft % 60 === 59) { // 1분이 지날 때 마다 (대략)
+                 // 실시간 차감 로직은 복잡하니, 종료 시 한꺼번에 정산하거나 분단위 체크
+            }
+
+            if (timeLeft < 0) {
+                stopTimer(); // 휴식 끝 -> 대기 상태
+                subtitles.textContent = "- 휴식 끝! 이제 일해야지?";
+            }
+        }, 1000);
+    }
+
+    function completeSession() {
+        clearInterval(timer); // 일단 타이머 멈춤
+        
+        count++;
+        totalMins += 25;
+        breakBalance += 5; // 휴식 5분 적립
+        updateStats();
+
+        // 플래시 효과
+        mainBoard.classList.add('flash-effect');
+        setTimeout(() => mainBoard.classList.remove('flash-effect'), 500);
+
+        // 5초 휴식 제안
+        hotdogImg.className = 'wiggle';
+        subtitles.textContent = "- 25분 컷! 잠깐 쉴래? 5초 준다.";
+        
+        breakPopup.classList.add('active');
+        breakTimerFill.style.width = '100%'; // 바 꽉 채움
+        
+        // CSS transition으로 줄어들게 하기 위해 잠시 후 0으로
+        setTimeout(() => { breakTimerFill.style.width = '0%'; }, 50);
+
+        autoContinueTimer = setTimeout(() => {
+            // 5초 무시 -> 자동 다음 세션
+            breakPopup.classList.remove('active');
+            subtitles.textContent = "- 독하다 독해... (대단하네)";
+            
+            // 약간의 딜레이 후 바로 시작
+            setTimeout(() => {
+                startTimerLogicOnly(); // UI 리셋 없이 타이머만 재가동
+            }, 1000);
+        }, 5000);
+    }
+
+    function confirmBreak() {
+        clearTimeout(autoContinueTimer);
+        breakPopup.classList.remove('active');
+        subtitles.textContent = "- 오케이, 쉬자!";
+        isRunning = false; // 타이머 상태 초기화
+        startBreak(); // 휴식 시작
+    }
+
+    function startTimerLogicOnly() {
+        // 이미 팝업 닫힘, 바로 다음 세션
+        mode = 'focus';
+        isRunning = true;
+        timeLeft = 25 * 60;
+        hotdogImg.className = 'happy';
+        updateDisplay();
+        breakBtn.disabled = true;
+        
+        timer = setInterval(() => {
+            timeLeft--;
+            updateDisplay();
+            if (timeLeft < 0) completeSession();
         }, 1000);
     }
 
     function stopTimer() {
         clearInterval(timer);
+        clearTimeout(autoContinueTimer);
+        breakPopup.classList.remove('active');
+        
+        if (mode === 'break') {
+            // 휴식하다 멈췄을 때: 쉰 만큼 계산 (초기 시간 - 남은 시간)
+            let spentSec = (breakBalance * 60) - (timeLeft + 1); // +1 보정
+            let spentMin = Math.floor(spentSec / 60);
+            if (spentMin > 0) {
+                totalBreakMins += spentMin;
+                breakBalance -= spentMin;
+                if(breakBalance < 0) breakBalance = 0;
+            }
+            updateStats();
+        }
+
         isRunning = false;
         hotdogImg.src = IMG_SAD;
         hotdogImg.className = 'sad';
         subtitles.textContent = sadQuotes[Math.floor(Math.random() * sadQuotes.length)];
+        updateStats();
     }
 
-    function resetTimer() {
-        clearInterval(timer);
-        isRunning = false;
-        timeLeft = 25 * 60;
-        hotdogImg.src = IMG_DEVIL;
-        hotdogImg.className = 'wiggle';
-        subtitles.textContent = idleQuotes[Math.floor(Math.random() * idleQuotes.length)];
-        updateDisplay();
+    /* --- Marquee Lights --- */
+    const bulbContainer = document.getElementById('bulb-container');
+    function createBulbs() {
+        const w = 940; const h = 640; const gap = 40;
+        const positions = [];
+        for(let i=0; i<w; i+=gap) positions.push({x: i + 20, y: 10});
+        for(let i=0; i<h; i+=gap) positions.push({x: w - 10, y: i + 20});
+        for(let i=w; i>0; i-=gap) positions.push({x: i - 20, y: h - 10});
+        for(let i=h; i>0; i-=gap) positions.push({x: 10, y: i - 20});
+
+        positions.forEach((pos, idx) => {
+            const bulb = document.createElement('div');
+            bulb.className = 'bulb';
+            bulb.style.left = pos.x + 'px'; bulb.style.top = pos.y + 'px';
+            bulbContainer.appendChild(bulb);
+            setInterval(() => {
+                const isEven = idx % 2 === 0;
+                const time = Date.now();
+                if (Math.floor(time / 500) % 2 === (isEven ? 0 : 1)) bulb.classList.add('on');
+                else bulb.classList.remove('on');
+            }, 500);
+        });
+    }
+    createBulbs();
+
+    /* --- Rune Data & Logic --- */
+    const runes = [
+        { s: 'ᛗ', n: 'Mannaz', k: '자아, 인류', t: '네가 혼자인 것 같지? 주위를 봐. 널 도울 사람이 널려있어.' },
+        { s: 'ᚷ', n: 'Gebo', k: '선물, 파트너십', t: '너한테 엄청난 재능이 있네. 그건 바로 날 알아보는 안목이지!' },
+        { s: 'ᚨ', n: 'Ansuz', k: '지혜, 메시지', t: '귀를 열어 봐. 중요한 힌트가 들릴 거야.' },
+        { s: 'ᛟ', n: 'Othila', k: '유산, 고향', t: '가진 걸 소중히 해. 네가 쌓아온 노력들이 곧 큰 자산이 될 거야.' },
+        { s: 'ᚢ', n: 'Uruz', k: '힘, 용기', t: '지금 네 에너지 미쳤다! 그대로 밀고 나가.' },
+        { s: 'ᛈ', n: 'Perth', k: '운명, 비밀', t: '인생은 도박이야! 이번엔 네가 이길 확률이 아주 높아.' },
+        { s: 'ᚾ', n: 'Nauthiz', k: '인내, 필요', t: '힘들어? 그게 다 뼈가 되고 살이 되는 거야. 조금만 더 버텨.' },
+        { s: 'ᛝ', n: 'Inguz', k: '성취, 결실', t: '씨앗은 이미 심어졌어. 대박 날 징조야!' },
+        { s: 'ᛇ', n: 'Eihwaz', k: '방어, 인내', t: '불안해하지 마. 넌 튼튼한 주목나무처럼 끄떡없다고.' },
+        { s: 'ᛉ', n: 'Algiz', k: '보호, 기회', t: '우주가 널 보호하고 있으니 겁먹지 말고 질러.' },
+        { s: 'ᚠ', n: 'Fehu', k: '풍요, 재물', t: '돈 냄새가 나는데? 곧 지갑이 두둑해지겠어.' },
+        { s: 'ᚹ', n: 'Wunjo', k: '기쁨, 성공', t: '야호! 모든 게 술술 풀릴 거야. 그냥 즐겨!' },
+        { s: 'ᛃ', n: 'Jera', k: '수확, 보상', t: '뿌린 대로 거둔다. 네가 열심히 한 만큼 결과가 올 거야.' },
+        { s: 'ᚲ', n: 'Kano', k: '열정, 지식', t: '네 머리 위에 전구 켜졌다! 아이디어가 번뜩일 때야.' },
+        { s: 'ᛏ', n: 'Teiwaz', k: '승리, 정의', t: '싸워 이겨! 넌 전사야. 목표를 향해 직진해.' },
+        { s: 'ᛒ', n: 'Berkana', k: '성장, 치유', t: '새로운 게 자라나고 있어. 힐링이 필요하면 잠깐 쉬어.' },
+        { s: 'ᛖ', n: 'Ehwaz', k: '이동, 변화', t: '어디론가 떠나거나 바뀔 타이밍이야.' },
+        { s: 'ᛚ', n: 'Laguz', k: '직관, 흐름', t: '머리 쓰지 말고 느낌 가는 대로 해. 네 촉이 맞아.' },
+        { s: 'ᚺ', n: 'Hagalaz', k: '혼돈, 변화', t: '와장창! 좀 깨지면 어때? 원래 부서져야 더 멋진 걸 새로 짓는 법이야.' },
+        { s: 'ᚱ', n: 'Raido', k: '여행, 발전', t: '인생은 여행이지. 멈추지 말고 계속 달려.' },
+        { s: 'ᚦ', n: 'Thurisaz', k: '경고, 신중함', t: '잠깐 스톱! 한번만 더 생각하고 움직여.' },
+        { s: 'ᛞ', n: 'Dagaz', k: '돌파구, 빛', t: '어두운 터널 끝이야. 이제 빛 볼 일만 남았어.' },
+        { s: 'ᛁ', n: 'Isa', k: '정지, 휴식', t: '지금은 얼음! 억지로 움직이지 말고 잠깐 멈춰서 숨 좀 돌려.' },
+        { s: 'ᛋ', n: 'Sowelu', k: '성공, 태양', t: '넌 태양이야. 존재만으로도 빛나.' },
+        { s: '?', n: 'Blank', k: '무한한 가능성', t: '백지수표야. 네 미래는 네가 쓰는 대로 될 거야.' }
+    ];
+    function openRuneModal() { document.getElementById('rune-modal').style.display = 'flex'; drawRune(); }
+    function closeRuneModal() { document.getElementById('rune-modal').style.display = 'none'; }
+    function drawRune() {
+        const r = runes[Math.floor(Math.random() * runes.length)];
+        document.getElementById('rune-symbol').textContent = r.s || '⬜';
+        document.getElementById('rune-name').textContent = r.n;
+        document.getElementById('rune-desc').textContent = `Keyword: ${r.k}`;
+        document.getElementById('tony-comment').textContent = `- Tony: "${r.t}"`;
     }
 
+    /* --- Todo & Util --- */
     function addTodo() {
         const val = todoInput.value.trim();
         if (!val) return;
         const li = document.createElement('li');
         li.className = 'todo-item';
-        li.innerHTML = `
-            <span class="todo-text" onclick="this.classList.toggle('done')">${val}</span>
-            <button style="border:none; background:none; color:red; font-weight:bold; cursor:pointer;" onclick="this.parentElement.remove()">X</button>
-        `;
-        todoList.appendChild(li);
-        todoInput.value = "";
+        li.innerHTML = `<span class="todo-text" onclick="this.classList.toggle('done')">${val}</span><button style="border:none;background:none;color:red;font-weight:bold;cursor:pointer;" onclick="this.parentElement.remove()">X</button>`;
+        todoList.appendChild(li); todoInput.value = "";
     }
-
     function copyReceipt() {
-        const date = document.getElementById('receipt-date').textContent;
         let items = "";
         document.querySelectorAll('.todo-item').forEach(item => {
             const text = item.querySelector('.todo-text').textContent;
             const isDone = item.querySelector('.todo-text').classList.contains('done');
             items += `${isDone ? '✅' : '❎'} ${text}\n`;
         });
-        const receiptText = `
-┏━━━━━━━━━━━━━━━━━━━━━━━┓
-   TONY'S CA DEVIL HOTDOG
-┗━━━━━━━━━━━━━━━━━━━━━━━┛
-  ${date}
-  ━━━━━━━━━━━━━━━━━━━━━━━
-  [ DEVIL'S ORDER LIST ]
-  ${items || "  주문 내역이 없습니다.\n"}
-  ━━━━━━━━━━━━━━━━━━━━━━━
-  TOTAL ORDERS : ${count}
-  FOCUS TIME   : ${totalMins} MINS
-  ━━━━━━━━━━━━━━━━━━━━━━━
-  THANK YOU FOR ATTENTION! 😈🌭
-  ━━━━━━━━━━━━━━━━━━━━━━━
-        `;
-        navigator.clipboard.writeText(receiptText.trim()).then(() => alert("영수증 복사 완료!"));
+        const txt = `[TONY'S DEVIL HOTDOG]\nDATE: ${document.getElementById('receipt-date').textContent.replace('DATE: ','')}\n----------------\n${items || "No Orders\n"}----------------\nOrders: ${count}\nFocus: ${totalMins}m\nRest: ${totalBreakMins}m\n----------------`;
+        navigator.clipboard.writeText(txt).then(() => alert("THANK YOU!😈"));
     }
 
     todoInput.addEventListener('keypress', (e) => { if(e.key === 'Enter') addTodo(); });
     document.getElementById('start-btn').addEventListener('click', startTimer);
     document.getElementById('stop-btn').addEventListener('click', stopTimer);
-    document.getElementById('stage').addEventListener('click', startTimer);
+    document.getElementById('break-btn').addEventListener('click', startBreak);
+    document.getElementById('stage').addEventListener('click', () => { if(!isRunning && mode === 'focus') startTimer(); });
 
-    updateStats();
-    updateDisplay();
-    updateDate();
+    updateStats(); updateDisplay(); updateDate();
 </script>
-
 </body>
 </html>
